@@ -57,7 +57,7 @@
   <div class="jumbotron">
     <div class="container">
     <div class="row text-center"> 
-      <div class="col-md-8 col-md-offset-2">
+      <div class="col-md-9 col-md-offset-1">
         <!-- <img src="http://placehold.it/600x400" alt="..." class=""> -->
         <div class="text-left"><h2>By The Numbers</h2>
                   <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
@@ -73,7 +73,16 @@
 
   <div class="container">
     <div class="row">
-        <div id="chart" style="width:15000px; height:600px;"></div>
+        <div class="col-md-5 col-md-offset-1">
+          <h3>Average salary of a student working 20 hours a week vs. the annual cost of Living in Michigan</h3> 
+          <div id="chart" style="width:100%; height:300px;"></div>
+          <p class="text-right"><small>Sources: <a href="http://dol.gov">dol.gov</a>, <a href="http://livingwage.mit.edu">livingwage.mit.edu</a></small></p>
+        </div>
+        <div class="col-md-5">
+          <h3>Annual cost vs. average amount of student loans received</h3> 
+          <div id="chart1" style="width:100%; height:325px;"></div>
+          <p class="text-right"><small>Sources: <a href="http://dol.gov">dol.gov</a>, <a href="http://livingwage.mit.edu">livingwage.mit.edu</a></small></p>
+        </div>
     </div>
   </div>
 
@@ -86,91 +95,102 @@
       </div>
     </div> 
     <!-- /container -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
 
         <script src="js/vendor/bootstrap.min.js"></script>
 
         <script src="js/main.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 
         <script type="text/javascript">
 (function(){
 var options = {
-chart: {
-renderTo: 'chart',
-defaultSeriesType: 'column'
-},
-title: false,
-xAxis: {
-categories: [],
-labels: {
-rotation: -90,
-align: 'right',
-style: {
-fontSize: '11px'
-}
-}
-},
-yAxis: {
-title: {
-text: 'Avg. Salary ($)'
-}
-},
-series: [{
-data: [],
-dataLabels: {
-    enabled: true,
-    rotation: -90,
-    color: '#111',
-    align: 'right',
-    x: 4,
-    y: 10,
-    style: {
-        fontSize: '10px',
-        fontFamily: 'Verdana, sans-serif',
-        
-    }
-  }
-}]
+      chart: {
+                  renderTo: 'chart',
+                  type: 'column'
+              },
+              title:false
+                ,
+              xAxis: {
+                  categories: ['A student working 20 hours a week at minimum wage', 'Annual Cost of Living in Michigan for 1 Adult before taxes']
+              },
+              yAxis: {
+                  title: {
+                      text: 'Dollars ($)'
+                  }
+              },
+              legend: {
+                enabled: false
+              },
+              series: [{
+                  name: '$',
+                  data: [{y:7696,currency:'$:val'},{y:18439,currency:'$:val'}],
+                  dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#111',
+                    align: 'center',
+                    // x: 4,
+                    // y: 10,
+                    style: {
+                      fontSize: '14px',
+                      fontFamily: 'Verdana, sans-serif',
+                     },
+                     formatter: function() {
+                          return '$'+ Highcharts.numberFormat(this.y, 0);
+                      }
+                  }
+              }],
+
 };
-
-$.get('preliminary-work/average-salary-dept-hc.csv', function(data) {
-// Split the lines
-var lines = data.split("\r");
-
-// Iterate over the lines and add categories or series
-$.each(lines, function(lineNo, line) {
-
-var label = line.substr(0, line.lastIndexOf(',')).replace(/\"/g, '');
-var value = line.substr(line.lastIndexOf(',')+1);
-//console.log(label, value);
-
-// header line containes categories
-/* if (lineNo > 15) {
-return;
-} */
-
-if (lineNo == 0) {
-return;
-}
-
-// the rest of the lines contain data with their name in the first 
-// position
-else {
-
-options.xAxis.categories.push(label);
-options.series[0].data.push(parseFloat(value));
-
-}  
-
-
-});
-
-// Create the chart
 var chart = new Highcharts.Chart(options);
-});
+})();
+</script>
+
+<script type="text/javascript">
+(function(){
+var options = {
+      chart: {
+                  renderTo: 'chart1',
+                  type: 'column'
+              },
+              title:false
+                ,
+              xAxis: {
+                  categories: ['In-State Tuition, Living Expenses', 'Out-of-State Tuition, Living Expenses', 'Avg. amount of Federal loans received']
+              },
+              yAxis: {
+                  title: {
+                      text: 'Dollars ($)'
+                  }
+              },
+              legend: {
+                enabled: false
+              },
+              series: [{
+                  name: '$',
+                  data: [{y:24648,currency:'$:val'},{y:45536,currency:'$:val'},{y:7319,currency:'$:val'}],
+                  dataLabels: {
+                    enabled: true,
+                    // rotation: -90,
+                    color: '#111',
+                    align: 'center',
+                    // x: 4,
+                    // y: 10,
+                    style: {
+                      fontSize: '14px',
+                      fontFamily: 'Verdana, sans-serif',
+                     },
+                     formatter: function() {
+                          return '$'+ Highcharts.numberFormat(this.y, 0);
+                      }
+                  }
+              }],
+
+};
+var chart = new Highcharts.Chart(options);
 })();
 </script>
 
